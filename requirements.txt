@@ -1,0 +1,15 @@
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+flask
+joblib
+dill
+PyYAML
+pytest
+ipykernel
+tensorflow
+opencv-python
+pillow
+-e .

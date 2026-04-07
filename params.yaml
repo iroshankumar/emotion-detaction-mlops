@@ -1,0 +1,20 @@
+data:
+  train_dir: data/raw/fer2013/data/train
+  val_dir: data/raw/fer2013/data/val
+  test_dir: data/raw/fer2013/data/test
+
+training:
+  image_size: 48
+  batch_size: 32
+  epochs: 5
+  learning_rate: 0.001
+  seed: 42
+
+model:
+  num_classes: 7
+  input_shape: [48, 48, 1]
+
+artifacts:
+  model_path: artifacts/model/emotion_model.keras
+  metrics_path: reports/metrics.json
+  history_path: reports/history.json
