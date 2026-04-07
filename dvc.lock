@@ -1,0 +1,71 @@
+schema: '2.0'
+stages:
+  train:
+    cmd: python -m src.pipeline.train_pipeline
+    deps:
+    - path: data/raw/fer2013/data/test
+      hash: md5
+      md5: fcc1becf3c9a1cabfed30fe5cded95b1.dir
+      size: 6248264
+      nfiles: 3589
+    - path: data/raw/fer2013/data/train
+      hash: md5
+      md5: b355efc29e622ec76eecebd9cf18d071.dir
+      size: 49892835
+      nfiles: 28709
+    - path: data/raw/fer2013/data/val
+      hash: md5
+      md5: 870792d8b3023914a400a9493307c94f.dir
+      size: 6249935
+      nfiles: 3589
+    - path: params.yaml
+      hash: md5
+      md5: 3dd08aea2ea87400bf6f6052a19a8f9d
+      size: 401
+    - path: src/components/data_transformation.py
+      hash: md5
+      md5: 977f521939bfc3af3823b245a1aa92aa
+      size: 3586
+    - path: src/components/model_trainer.py
+      hash: md5
+      md5: 72485ab38d80230723df20c9f01c036a
+      size: 5007
+    - path: src/pipeline/train_pipeline.py
+      hash: md5
+      md5: 8cac82226f5740997595ea1439d1ebef
+      size: 1186
+    params:
+      params.yaml:
+        artifacts:
+          model_path: artifacts/model/emotion_model.keras
+          metrics_path: reports/metrics.json
+          history_path: reports/history.json
+        data:
+          train_dir: data/raw/fer2013/data/train
+          val_dir: data/raw/fer2013/data/val
+          test_dir: data/raw/fer2013/data/test
+        model:
+          num_classes: 7
+          input_shape:
+          - 48
+          - 48
+          - 1
+        training:
+          image_size: 48
+          batch_size: 32
+          epochs: 5
+          learning_rate: 0.001
+          seed: 42
+    outs:
+    - path: artifacts/model/emotion_model.keras
+      hash: md5
+      md5: 88cb18164c54a0bab09c9c201db0c68c
+      size: 4317581
+    - path: reports/history.json
+      hash: md5
+      md5: 0db782bac276b20869ec64ce030cb941
+      size: 843
+    - path: reports/metrics.json
+      hash: md5
+      md5: 85463456085f563e186dc265098aeeef
+      size: 78

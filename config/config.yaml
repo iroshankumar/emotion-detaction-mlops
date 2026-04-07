@@ -1,0 +1,5 @@
+artifacts_root: artifacts
+
+model_trainer:
+  root_dir: artifacts/model
+  trained_model_file_path: artifacts/model/emotion_model.keras
