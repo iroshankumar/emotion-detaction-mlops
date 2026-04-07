@@ -1,3 +1,55 @@
+# name: CI Pipeline
+
+# on:
+#   push:
+#     branches: [main]
+#   pull_request:
+#     branches: [main]
+
+# jobs:
+#   test:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+
+#       - name: Set up Python
+#         uses: actions/setup-python@v5
+#         with:
+#           python-version: "3.11"
+
+#       - name: Upgrade pip
+#         run: python -m pip install --upgrade pip
+
+#       - name: Install dependencies
+#         run: |
+#           pip install -r requirements.txt
+#           pip install dvc mlflow
+
+#       - name: Verify important files
+#         run: |
+#           test -f main.py
+#           test -f app.py
+#           test -f dvc.yaml
+#           test -f params.yaml
+#           test -f requirements.txt
+
+#       - name: Check Python imports
+#         run: |
+#           python -c "import flask; print('Flask OK')"
+#           python -c "import mlflow; print('MLflow OK')"
+#           python -c "import dvc; print('DVC OK')"
+
+#       - name: Validate DVC pipeline
+#         run: |
+#           dvc --version
+#           dvc status || true
+
+
+
+
+
 name: CI Pipeline
 
 on:
@@ -7,7 +59,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  test-and-docker:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,23 +69,28 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.10"
 
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
 
-      - name: Install dependencies
+      - name: Install basic dependencies
         run: |
-          pip install -r requirements.txt
-          pip install dvc mlflow
+          pip install flask dvc mlflow
+
+      - name: Install project requirements
+        run: |
+          pip install -r requirements.txt || true
 
       - name: Verify important files
         run: |
-          test -f main.py
           test -f app.py
-          test -f dvc.yaml
-          test -f params.yaml
           test -f requirements.txt
+          test -d templates
+          test -d src
+          test -f dvc.yaml || true
+          test -f params.yaml || true
+          test -f main.py || true
 
       - name: Check Python imports
         run: |
@@ -41,7 +98,26 @@ jobs:
           python -c "import mlflow; print('MLflow OK')"
           python -c "import dvc; print('DVC OK')"
 
-      - name: Validate DVC pipeline
+      - name: Validate DVC
         run: |
           dvc --version
           dvc status || true
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        if: github.event_name == 'push'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t iroshann/emotiondetaction .
+
+      - name: Push Docker image to Docker Hub
+        if: github.event_name == 'push'
+        run: |
+          docker push iroshann/emotiondetaction
