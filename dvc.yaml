@@ -1,0 +1,22 @@
+stages:
+  train:
+    cmd: python -m src.pipeline.train_pipeline
+    deps:
+      - src/components/data_transformation.py
+      - src/components/model_trainer.py
+      - src/pipeline/train_pipeline.py
+      - params.yaml
+      - data/raw/fer2013/data/train
+      - data/raw/fer2013/data/val
+      - data/raw/fer2013/data/test
+    params:
+      - data
+      - training
+      - model
+      - artifacts
+    outs:
+      - artifacts/model/emotion_model.keras
+    metrics:
+      - reports/metrics.json
+    plots:
+      - reports/history.json
