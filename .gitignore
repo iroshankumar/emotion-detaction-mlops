@@ -56,4 +56,4 @@ mlruns/
 .DS_Store
 .vscode/
 .idea/
-data/raw/
+data/raw/data/raw/
