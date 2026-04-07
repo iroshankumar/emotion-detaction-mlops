@@ -57,3 +57,4 @@ mlruns/
 .vscode/
 .idea/
 data/raw/data/raw/
+data/raw/
