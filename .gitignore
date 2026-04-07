@@ -1,3 +1,22 @@
+# venv/
+# tfenv/
+# .env/
+# __pycache__/
+# *.pyc
+# *.pyo
+# *.pyd
+# logs/
+# *.log
+# artifacts/
+# *.pkl
+# *.joblib
+# .ipynb_checkpoints/
+# mlruns/
+# .dvc/cache/
+# .DS_Store
+# .vscode/
+# .idea/
+
 venv/
 tfenv/
 .env/
