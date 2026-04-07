@@ -12,4 +12,5 @@ ipykernel
 tensorflow
 opencv-python
 pillow
+flask
 -e .
