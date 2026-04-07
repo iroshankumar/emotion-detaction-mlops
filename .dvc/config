@@ -1,0 +1,7 @@
+[core]
+    remote = origin
+['remote "origin"']
+    url = https://dagshub.com/iroshankumar/emotion-detaction-mlops.dvc
+    auth = basic
+    user = iroshankumar
+    password = 18b7419caeadfa973e0af3f34ceecad18e1daa86
